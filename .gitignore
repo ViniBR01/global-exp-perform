@@ -1,2 +1,5 @@
 #emacs temp files
 *~
+
+#log files in txt
+*.txt
