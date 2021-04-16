@@ -3,37 +3,44 @@
 # Main script to run global experiments
 # For usage, see usage-example.sh. Do not modify this file for new experiments.
 
+process_input () {
+    # Check if input is an array string by searching for ';' within it
+    if [[ "$OPTARG" == *";"* ]]; then
+        IFS=";" read -r -a arr <<< "${OPTARG}"
+        echo "${arr[@]}"
+    else
+        echo "$OPTARG"
+    fi
+}
+
 while getopts ":f:t:r:m:u:a:g:p:n:" opt; do
     case ${opt} in
         f )
-            filesize=$OPTARG
-            echo "Arg filesize = ${filesize}"
+            file_size=$(process_input "$OPTARG")
             ;;
         t )
-            traffic_load=$OPTARG
-            echo "Arg traffic_load = ${traffic_load}"
+            traffic_load=$(process_input "$OPTARG")
             ;;
         r )
-            upload_ratio=$OPTARG
+            upload_ratio=$(process_input "$OPTARG")
             ;;
         m )
-            MCS=$OPTARG
+            MCS=$(process_input "$OPTARG")
             ;;
         u )
-            uplink_mode=$OPTARG
+            uplink_mode=$(process_input "$OPTARG")
             ;;
         a )
-            AP_antennas=$OPTARG
+            AP_antennas=$(process_input "$OPTARG")
             ;;
         g )
-            max_aggregation=$OPTARG
+            max_aggregation=$(process_input "$OPTARG")
             ;;
         p )
-            AP_priority=$OPTARG
+            AP_priority=$(process_input "$OPTARG")
             ;;
         n )
-            dir_name=$OPTARG
-            echo "Arg dirname = ${dir_name}"
+            dir_name=$(process_input "$OPTARG")
             ;;
         \? )
             echo "Invalid option. Usage: check script file."
@@ -44,6 +51,7 @@ while getopts ":f:t:r:m:u:a:g:p:n:" opt; do
     esac
 done
 
-
+echo "${file_size[@]}"
+echo "${traffic_load[@]}"
 
 exit 0
