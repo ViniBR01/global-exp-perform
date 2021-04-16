@@ -13,9 +13,11 @@ AP_antennas = 4
 max_aggregation = 40000
 AP_priority = 4
 
-#Call script with all parameters
+dir_name = "test_experiment"
+
+#Call main script passing all parameters
 echo "Start of all experiments."
-./example_main filesize traffic_load upload_ratio MCS uplink_mode AP_antennas max_aggregation AP_priority
+./main.sh filesize traffic_load upload_ratio MCS uplink_mode AP_antennas max_aggregation AP_priority
 
 wait
 
