@@ -2,11 +2,11 @@
 
 # Example of usage to guide development and future usage
 
-# Set parameters (fixed param or an array of values)
-declare -A ARGS
+# Set parameters (fixed param or a string array of values)
+# use semicolon to separate values in a string array
 
 filesize='300000'
-traffic_load='0.1;0.2;0.3;0.5;0.7;0.9'
+traffic_load='0.1;0.2;0.3;0.5;0.7;0.8'
 upload_ratio='0.5'
 MCS='8'
 uplink_mode='1;4;5'
