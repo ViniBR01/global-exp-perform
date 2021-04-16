@@ -51,42 +51,46 @@ while getopts ":f:t:r:m:u:a:g:p:n:" opt; do
     esac
 done
 
-echo " "
-echo "Received the following input arguments:"
-echo "File size = ${file_size[@]}"
-echo "Traffic load = ${traffic_load[@]}"
-echo "Upload ratio = ${upload_ratio[@]}"
-echo "MCS = ${MCS[@]}"
-echo "Uplink mode = ${uplink_mode[@]}"
-echo "AP antennas = ${AP_antennas[@]}"
-echo "Max aggregation = ${max_aggregation[@]}"
-echo "AP priority = ${AP_priority[@]}"
-echo "Directory name = ${dir_name[@]}"
-echo " "
+# echo " "
+# echo "Received the following input arguments:"
+# echo "File size = ${file_size[@]}"
+# echo "Traffic load = ${traffic_load[@]}"
+# echo "Upload ratio = ${upload_ratio[@]}"
+# echo "MCS = ${MCS[@]}"
+# echo "Uplink mode = ${uplink_mode[@]}"
+# echo "AP antennas = ${AP_antennas[@]}"
+# echo "Max aggregation = ${max_aggregation[@]}"
+# echo "AP priority = ${AP_priority[@]}"
+# echo "Directory name = ${dir_name[@]}"
+# echo " "
 
 # Iteratively run all combination of parameters
 # The directory structure output should be minimal
 
 base_path="./${dir_name[0]}/"
 
-for size in "${file_size[@]}"
-do
-    for load in "${traffic_load[@]}"
-    do
-        for ratio in "${upload_ratio[@]}"
-        do
-            for mcs in "${MCS[@]}"
-            do
-                for mode in "${uplink_mode[@]}"
-                do
-                    for antenna in "${AP_antennas[@]}"
-                    do
-                        for aggreg in "${max_aggregation[@]}"
-                        do
-                            for priority in "${AP_priority[@]}"
-                            do
+for size in "${file_size[@]}"; do
+    path1="$base_path"
+    if [[ "${file_size[1]}" != "" ]] 
+    then
+        # echo "This is an array - size"
+        path1="${path1}size${size}/"
+    fi
+    for load in "${traffic_load[@]}"; do
+        path2="$path1"
+        if [[ "${traffic_load[1]}" != "" ]]
+        then
+            # echo "This is an array - load"
+            path2="${path2}load${load}/"
+        fi
+        for ratio in "${upload_ratio[@]}"; do
+            for mcs in "${MCS[@]}"; do
+                for mode in "${uplink_mode[@]}"; do
+                    for antenna in "${AP_antennas[@]}"; do
+                        for aggreg in "${max_aggregation[@]}"; do
+                            for priority in "${AP_priority[@]}"; do
                                 echo "Experiment with: $size, $load, $ratio, $mcs, $mode, $antenna, $aggreg, $priority"
-                                echo "$base_path"
+                                echo "$path2"
                             done
                         done
                     done
