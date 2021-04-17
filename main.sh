@@ -73,24 +73,52 @@ for size in "${file_size[@]}"; do
     path1="$base_path"
     if [[ "${file_size[1]}" != "" ]] 
     then
-        # echo "This is an array - size"
         path1="${path1}size${size}/"
     fi
     for load in "${traffic_load[@]}"; do
         path2="$path1"
         if [[ "${traffic_load[1]}" != "" ]]
         then
-            # echo "This is an array - load"
             path2="${path2}load${load}/"
         fi
         for ratio in "${upload_ratio[@]}"; do
+            path3="$path2"
+            if [[ "${upload_ratio[1]}" != "" ]]
+            then
+                path3="${path3}ratio${ratio}/"
+            fi
             for mcs in "${MCS[@]}"; do
+                path4="$path3"
+                if [[ "${MCS[1]}" != "" ]]
+                then
+                    path4="${path4}mcs${mcs}/"
+                fi
                 for mode in "${uplink_mode[@]}"; do
+                    path5="$path4"
+                    if [[ "${uplink_mode[1]}" != "" ]]
+                    then
+                        path5="${path5}mode${mode}/"
+                    fi
                     for antenna in "${AP_antennas[@]}"; do
+                        path6="$path5"
+                        if [[ "${AP_antennas[1]}" != "" ]]
+                        then
+                            path6="${path6}antenna${antenna}/"
+                        fi
                         for aggreg in "${max_aggregation[@]}"; do
+                            path7="$path6"
+                            if [[ "${max_aggregation[1]}" != "" ]]
+                            then
+                                path7="${path7}aggreg${aggreg}/"
+                            fi
                             for priority in "${AP_priority[@]}"; do
+                                path8="$path7"
+                                if [[ "${AP_priority[1]}" != "" ]]
+                                then
+                                    path8="${path8}priority${priority}/"
+                                fi
                                 echo "Experiment with: $size, $load, $ratio, $mcs, $mode, $antenna, $aggreg, $priority"
-                                echo "$path2"
+                                echo "$path8"
                             done
                         done
                     done
