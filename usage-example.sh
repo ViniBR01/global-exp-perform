@@ -6,8 +6,8 @@
 # use semicolon to separate values in a string array
 
 filesize='300000'
-traffic_load='0.1;0.3;0.5'
-upload_ratio='0.5'
+traffic_load='10;30;50;70'
+upload_ratio='0.0;0.5;1.0'
 MCS='8'
 uplink_mode='4;5'
 AP_antennas='4'
