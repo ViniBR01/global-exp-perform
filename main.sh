@@ -67,7 +67,7 @@ done
 # Iteratively run all combination of parameters
 # The directory structure output should be minimal
 
-base_path="./${dir_name[0]}/"
+base_path="${dir_name[0]}/"
 
 for size in "${file_size[@]}"; do
     path1="$base_path"
@@ -119,7 +119,7 @@ for size in "${file_size[@]}"; do
                                 fi
                                 # echo "Experiment with: $size, $load, $ratio, $mcs, $mode, $antenna, $aggreg, $priority"
                                 pathfinal="${path8//[.]/_}"
-                                echo "${pathfinal/[_]/.}"
+                                echo "./${pathfinal}"
                                 # Here call script to run one round of experiment with selected parameters
                                 # Fix me
                             done
