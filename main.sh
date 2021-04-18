@@ -117,8 +117,11 @@ for size in "${file_size[@]}"; do
                                 then
                                     path8="${path8}priority${priority}/"
                                 fi
-                                echo "Experiment with: $size, $load, $ratio, $mcs, $mode, $antenna, $aggreg, $priority"
-                                echo "${path8//[.]/_}"
+                                # echo "Experiment with: $size, $load, $ratio, $mcs, $mode, $antenna, $aggreg, $priority"
+                                pathfinal="${path8//[.]/_}"
+                                echo "${pathfinal/[_]/.}"
+                                # Here call script to run one round of experiment with selected parameters
+                                # Fix me
                             done
                         done
                     done
