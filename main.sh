@@ -75,48 +75,56 @@ for size in "${file_size[@]}"; do
     then
         path1="${path1}size${size}/"
     fi
-    for load in "${traffic_load[@]}"; do
+
+    for priority in "${AP_priority[@]}"; do
         path2="$path1"
-        if [[ "${traffic_load[1]}" != "" ]]
+        if [[ "${AP_priority[1]}" != "" ]]
         then
-            path2="${path2}load${load}/"
+            path2="${path2}priority${priority}/"
         fi
+
         for ratio in "${upload_ratio[@]}"; do
             path3="$path2"
             if [[ "${upload_ratio[1]}" != "" ]]
             then
                 path3="${path3}ratio${ratio}/"
             fi
+
             for mcs in "${MCS[@]}"; do
                 path4="$path3"
                 if [[ "${MCS[1]}" != "" ]]
                 then
                     path4="${path4}mcs${mcs}/"
                 fi
-                for mode in "${uplink_mode[@]}"; do
+
+                for aggreg in "${max_aggregation[@]}"; do
                     path5="$path4"
-                    if [[ "${uplink_mode[1]}" != "" ]]
+                    if [[ "${max_aggregation[1]}" != "" ]]
                     then
-                        path5="${path5}mode${mode}/"
+                        path5="${path5}aggreg${aggreg}/"
                     fi
+
                     for antenna in "${AP_antennas[@]}"; do
                         path6="$path5"
                         if [[ "${AP_antennas[1]}" != "" ]]
                         then
                             path6="${path6}antenna${antenna}/"
                         fi
-                        for aggreg in "${max_aggregation[@]}"; do
+
+                        for mode in "${uplink_mode[@]}"; do
                             path7="$path6"
-                            if [[ "${max_aggregation[1]}" != "" ]]
+                            if [[ "${uplink_mode[1]}" != "" ]]
                             then
-                                path7="${path7}aggreg${aggreg}/"
+                                path7="${path7}mode${mode}/"
                             fi
-                            for priority in "${AP_priority[@]}"; do
+
+                            for load in "${traffic_load[@]}"; do
                                 path8="$path7"
-                                if [[ "${AP_priority[1]}" != "" ]]
+                                if [[ "${traffic_load[1]}" != "" ]]
                                 then
-                                    path8="${path8}priority${priority}/"
+                                    path8="${path8}load${load}/"
                                 fi
+                                
                                 # echo "Experiment with: $size, $load, $ratio, $mcs, $mode, $antenna, $aggreg, $priority"
                                 pathfinal="${path8//[.]/_}"
                                 echo "./${pathfinal}"
