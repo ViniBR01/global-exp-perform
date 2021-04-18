@@ -16,12 +16,12 @@ path=$9
 
 echo "Running single experiment: $filesize $AP_priority $upload_ratio \
 $MCS $max_aggregation $AP_antennas $uplink_mode $traffic_load $path"
-sudo -u vini-desktop mkdir -p $dir_name
+sudo -u vini-desktop mkdir -p $path
 exec /home/vini-desktop/src/libs/libnetfilter_queue/examples/nf-queue 0 8 1 4 40000 &
 #sudo -u vini-desktop ./run_experiment_Mix.sh
 #echo "Test running 32 stations..."
 #fix-me: call script that runs 32 simultaneous stations
 #e.g., 
-#sudo -u vini-desktop ./run_simult_32 $size, $priority, $ratio, $mcs, $aggreg, $antenna, $mode, $load, $path
+sudo -u vini-desktop ./run_simult_32.sh $size, $priority, $ratio, $mcs, $aggreg, $antenna, $mode, $load, $path
 pkill nf-queue
 
