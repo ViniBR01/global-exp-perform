@@ -3,7 +3,7 @@
 # Script to run all simlutaenous traffic for a single experiment given all parameters
 # For usage, see usage-example.sh. Do not modify this file for new experiments.
 
-#test me: ./run_simult_32.sh 300000 4 0 8 40000 4 5 20 ./example
+#test me: ./run_simult_32.sh 300000 4 0 8 40000 4 5 20 ./example tcp 5
 
 # Receive input arguments
 filesize=$1
@@ -18,9 +18,7 @@ path=$9
 transport=${10}
 length=${11}
 
-runtime=length
-mininterval=0
-maxinterval=1
+runtime=$length
 
 # echo " "
 # echo "Received the following input arguments at run_simlut_32:"
@@ -38,76 +36,40 @@ maxinterval=1
 # exit
 
 echo "Test running 32 stations..."
-python3 main.py -i 192.168.0.102 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta01.txt" &
-python3 main.py -i 192.168.0.103 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta02.txt" &
-python3 main.py -i 192.168.0.104 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta03.txt" &
-python3 main.py -i 192.168.0.105 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta04.txt" &
-python3 main.py -i 192.168.0.106 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta05.txt" &
-python3 main.py -i 192.168.0.107 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta06.txt" &
+python3 tcp.py -i 192.168.0.102 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta01.txt" &
+python3 tcp.py -i 192.168.0.103 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta02.txt" &
+python3 tcp.py -i 192.168.0.104 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta03.txt" &
+python3 tcp.py -i 192.168.0.105 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta04.txt" &
+python3 tcp.py -i 192.168.0.106 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta05.txt" &
+python3 tcp.py -i 192.168.0.107 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta06.txt" &
 
-python3 main.py -i 192.168.0.202 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta07.txt" &
-python3 main.py -i 192.168.0.203 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta08.txt" &
-python3 main.py -i 192.168.0.204 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta09.txt" &
-python3 main.py -i 192.168.0.205 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta10.txt" &
-python3 main.py -i 192.168.0.206 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta11.txt" &
-python3 main.py -i 192.168.0.207 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta12.txt" &
+python3 tcp.py -i 192.168.0.202 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta07.txt" &
+python3 tcp.py -i 192.168.0.203 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta08.txt" &
+python3 tcp.py -i 192.168.0.204 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta09.txt" &
+python3 tcp.py -i 192.168.0.205 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta10.txt" &
+python3 tcp.py -i 192.168.0.206 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta11.txt" &
+python3 tcp.py -i 192.168.0.207 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta12.txt" &
 
-python3 main.py -i 192.168.0.132 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta13.txt" &
-python3 main.py -i 192.168.0.133 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta14.txt" &
-python3 main.py -i 192.168.0.134 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta15.txt" &
-python3 main.py -i 192.168.0.135 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta16.txt" &
-python3 main.py -i 192.168.0.136 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta17.txt" &
-python3 main.py -i 192.168.0.137 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta18.txt" &
-python3 main.py -i 192.168.0.138 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta19.txt" &
-python3 main.py -i 192.168.0.139 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta20.txt" &
-python3 main.py -i 192.168.0.140 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta21.txt" &
-python3 main.py -i 192.168.0.141 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta22.txt" &
+python3 tcp.py -i 192.168.0.132 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta13.txt" &
+python3 tcp.py -i 192.168.0.133 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta14.txt" &
+python3 tcp.py -i 192.168.0.134 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta15.txt" &
+python3 tcp.py -i 192.168.0.135 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta16.txt" &
+python3 tcp.py -i 192.168.0.136 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta17.txt" &
+python3 tcp.py -i 192.168.0.137 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta18.txt" &
+python3 tcp.py -i 192.168.0.138 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta19.txt" &
+python3 tcp.py -i 192.168.0.139 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta20.txt" &
+python3 tcp.py -i 192.168.0.140 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta21.txt" &
+python3 tcp.py -i 192.168.0.141 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta22.txt" &
 
-python3 main.py -i 192.168.0.162 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta23.txt" &
-python3 main.py -i 192.168.0.163 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta24.txt" &
-python3 main.py -i 192.168.0.164 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta25.txt" &
-python3 main.py -i 192.168.0.165 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta26.txt" &
-python3 main.py -i 192.168.0.166 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta27.txt" &
-python3 main.py -i 192.168.0.167 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta28.txt" &
-python3 main.py -i 192.168.0.168 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta29.txt" &
-python3 main.py -i 192.168.0.169 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta30.txt" &
-python3 main.py -i 192.168.0.170 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta31.txt" &
-python3 main.py -i 192.168.0.171 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta32.txt" &
-
-# echo "hello" > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta01.txt" &
-# echo "hello" > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta02.txt" &
-# echo "hello" > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta03.txt" &
-# echo "hello" > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta04.txt" &
-# python3 main.py -i 192.168.0.106 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta05.txt" &
-# python3 main.py -i 192.168.0.107 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta06.txt" &
-
-# python3 main.py -i 192.168.0.202 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta07.txt" &
-# python3 main.py -i 192.168.0.203 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta08.txt" &
-# python3 main.py -i 192.168.0.204 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta09.txt" &
-# python3 main.py -i 192.168.0.205 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta10.txt" &
-# python3 main.py -i 192.168.0.206 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta11.txt" &
-# python3 main.py -i 192.168.0.207 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta12.txt" &
-
-# python3 main.py -i 192.168.0.132 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta13.txt" &
-# python3 main.py -i 192.168.0.133 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta14.txt" &
-# python3 main.py -i 192.168.0.134 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta15.txt" &
-# python3 main.py -i 192.168.0.135 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta16.txt" &
-# python3 main.py -i 192.168.0.136 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta17.txt" &
-# python3 main.py -i 192.168.0.137 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta18.txt" &
-# python3 main.py -i 192.168.0.138 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta19.txt" &
-# python3 main.py -i 192.168.0.139 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta20.txt" &
-# python3 main.py -i 192.168.0.140 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta21.txt" &
-# python3 main.py -i 192.168.0.141 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta22.txt" &
-
-# python3 main.py -i 192.168.0.162 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta23.txt" &
-# python3 main.py -i 192.168.0.163 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta24.txt" &
-# python3 main.py -i 192.168.0.164 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta25.txt" &
-# python3 main.py -i 192.168.0.165 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta26.txt" &
-# python3 main.py -i 192.168.0.166 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta27.txt" &
-# python3 main.py -i 192.168.0.167 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta28.txt" &
-# python3 main.py -i 192.168.0.168 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta29.txt" &
-# python3 main.py -i 192.168.0.169 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta30.txt" &
-# python3 main.py -i 192.168.0.170 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta31.txt" &
-# python3 main.py -i 192.168.0.171 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta32.txt" &
+python3 tcp.py -i 192.168.0.162 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta23.txt" &
+python3 tcp.py -i 192.168.0.163 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta24.txt" &
+python3 tcp.py -i 192.168.0.164 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta25.txt" &
+python3 tcp.py -i 192.168.0.165 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta26.txt" &
+python3 tcp.py -i 192.168.0.166 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta27.txt" &
+python3 tcp.py -i 192.168.0.167 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta28.txt" &
+python3 tcp.py -i 192.168.0.168 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta29.txt" &
+python3 tcp.py -i 192.168.0.169 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta30.txt" &
+python3 tcp.py -i 192.168.0.170 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta31.txt" &
+python3 tcp.py -i 192.168.0.171 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta32.txt" &
 
 wait
