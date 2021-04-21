@@ -13,7 +13,7 @@ process_input () {
     fi
 }
 
-while getopts ":f:t:r:m:u:a:g:p:n:" opt; do
+while getopts ":f:t:r:m:u:a:g:p:n:e:x:l:" opt; do
     case ${opt} in
         f )
             file_size=($(process_input "$OPTARG"))
@@ -42,6 +42,16 @@ while getopts ":f:t:r:m:u:a:g:p:n:" opt; do
         n )
             dir_name=($(process_input "$OPTARG"))
             ;;
+        e )
+            repeat=($(process_input "$OPTARG"))
+            ;;
+        x )
+            transport=($(process_input "$OPTARG"))
+            ;;
+        l )
+            exp_length=($(process_input "$OPTARG"))
+            ;;
+        
         \? )
             echo "Invalid option. Usage: check script file."
             ;;
