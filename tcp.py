@@ -57,9 +57,9 @@ def main(argv):
             upload_ratio = float(arg)
     
     # Convert traffic_load into max and min interval
-    N_stations = 32
-    N_AP = 4
-    PHY_rate = 86700000
+    N_stations = 32 # Hard-coded: fix-me XXX
+    N_AP = 4 # XXX
+    PHY_rate = 86700000 # XXX
     avg_interval = (100 * N_stations * 8 * size) / (traffic_load * N_AP * PHY_rate) - (8 * size / PHY_rate)
     max_interval = 2 * avg_interval
     min_interval = 0
