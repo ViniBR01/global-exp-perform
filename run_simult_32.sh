@@ -35,7 +35,7 @@ runtime=$length
 
 # exit
 
-echo "Test running 32 stations..."
+echo "Experiment running 32 stations..."
 python3 tcp.py -i 192.168.0.102 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta01.txt" &
 python3 tcp.py -i 192.168.0.103 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta02.txt" &
 python3 tcp.py -i 192.168.0.104 -f $filesize -l $runtime -t $traffic_load -m $upload_ratio > "${path}result-sta03.txt" &
