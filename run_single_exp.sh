@@ -13,19 +13,24 @@ antenna=$6
 mode=$7
 load=$8
 path=$9
+transport=${10}
+length=${11}
 
-# echo " "
-# echo "Received the following input arguments at run_single_exp:"
-# echo "File size = $filesize"
-# echo "Traffic load = ${traffic_load[@]}"
-# echo "Upload ratio = ${upload_ratio[@]}"
-# echo "MCS = ${MCS[@]}"
-# echo "Uplink mode = ${uplink_mode[@]}"
-# echo "AP antennas = ${AP_antennas[@]}"
-# echo "Max aggregation = ${max_aggregation[@]}"
-# echo "AP priority = ${AP_priority[@]}"
-# echo "Directory name = ${path[@]}"
-# echo " "
+
+echo " "
+echo "Received the following input arguments at run_single_exp:"
+echo "File size = $size"
+echo "Traffic load = ${load[@]}"
+echo "Upload ratio = ${ratio[@]}"
+echo "MCS = ${mcs[@]}"
+echo "Uplink mode = ${mode[@]}"
+echo "AP antennas = ${antenna[@]}"
+echo "Max aggregation = ${aggreg[@]}"
+echo "AP priority = ${priority[@]}"
+echo "Directory name = ${path[@]}"
+echo "Transport choice = ${transport[@]}"
+echo "Experiment length = ${length[@]}"
+echo " "
 
 
 echo "Running single experiment: $filesize $AP_priority $upload_ratio \
@@ -36,7 +41,7 @@ exec /home/vini-desktop/src/libs/libnetfilter_queue/examples/nf-queue 0 8 1 4 40
 #echo "Test running 32 stations..."
 #fix-me: call script that runs 32 simultaneous stations
 #e.g., 
-sudo -u vini-desktop ./run_simult_32.sh $size $priority $ratio $mcs $aggreg $antenna $mode $load $path
+sudo -u vini-desktop ./run_simult_32.sh $size $priority $ratio $mcs $aggreg $antenna $mode $load $path $transport $length
 # sudo -u vini-desktop ./run_simult_32.sh 300000 4 0 8 40000 4 5 20 ./example
 pkill nf-queue
 
