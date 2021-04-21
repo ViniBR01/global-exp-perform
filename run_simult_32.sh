@@ -15,8 +15,10 @@ AP_antennas=$6
 uplink_mode=$7
 traffic_load=$8
 path=$9
+transport=${10}
+length=${11}
 
-runtime=3
+runtime=length
 mininterval=0
 maxinterval=1
 
