@@ -11,12 +11,12 @@ x = 100*x
 
 # First, UDP counting
 #Enter data from process-data, manually:
-udp_4_dl_in = [ 180.,  389.,  231.,  429., 1387., 1107.,  828.,  579.]
-udp_4_ul_in = [ 156.,  352.,  234.,  426., 1331., 1044.,  779.,  546.]
-udp_6_dl_in = [ 400.,  439., 1263., 1578., 1455., 1049.,  814.,  543.]
-udp_6_ul_in = [ 426.,  398., 1206., 1597., 1415., 1075.,  764.,  610.]
-udp_8_dl_in = [1036.,  824., 1734., 1669., 1421., 1011.,  772.,  560.]
-udp_8_ul_in = [ 927.,  871., 1668., 1714., 1457., 1096.,  828.,  538.]
+udp_4_dl_in = [4341., 4744., 4399., 4247., 3931., 2947., 2411., 1652.]
+udp_4_ul_in = [4408., 4551., 4489., 4197., 3818., 3083., 2366., 1634.]
+udp_6_dl_in = [6188., 6017., 5707., 5061., 4318., 3142., 2445., 1627.]
+udp_6_ul_in = [6127., 6070., 5663., 5020., 4216., 3061., 2429., 1579.]
+udp_8_dl_in = [6635., 6500., 6153., 5199., 4348., 3135., 2397., 1700.]
+udp_8_ul_in = [6540., 6504., 6170., 5286., 4338., 3108., 2408., 1581.]
 
 udp_4_dl = np.array(udp_4_dl_in) * 8 * 300000 / 100
 udp_4_ul = np.array(udp_4_ul_in) * 8 * 300000 / 100
@@ -35,7 +35,7 @@ udp_8_ul /= (4*PHYrate) / 100
 
 # Remove data point that is out-of-curve
 mask = np.ones(len(udp_8_dl), dtype=bool)
-mask[[1]] = False
+# mask[[1]] = False
 
 fig, ax = plt.subplots()
 # Plot Downloads as a solid line
@@ -50,12 +50,12 @@ ax.plot(x[mask], udp_4_ul[mask], linestyle='dashed', color='tab:purple')
 
 ax.legend(['8 antennas - DL', '8 antennas - UL', '6 antennas - DL', '6 antennas - UL', '4 antennas - DL', '4 antennas - UL'], loc='upper right') #loc='lower left') #loc='upper right')
 # ax.legend(bbox_to_anchor=(1.1, 1.05))
-ax.set(xlim=(0, 100), ylim=(0, 20.0))
+ax.set(xlim=(0, 100), ylim=(0, 100.0))
 ax.grid(color='k', linestyle='--', linewidth=1)
-plt.title("Aggregate UDP throughput of 300kB file transmissions - 32 stations")
+plt.title("Aggregate TCP throughput of 300kB file transmissions - 32 stations")
 plt.xlabel('Aggregate traffic load in network, in % [Normalized by MIMO PHY rate of 4 antennas]') 
-plt.ylabel('Measured aggregate UDP Throughput\n[Normalized by MIMO PHY rate of 4 antennas]') 
-plt.savefig('UDP-Throughput-32sta.png', dpi=300)
+plt.ylabel('Measured aggregate TCP Throughput\n[Normalized by MIMO PHY rate of 4 antennas]') 
+plt.savefig('TCP-Aggreg-Throughput-32sta.png', dpi=300)
 
 
 

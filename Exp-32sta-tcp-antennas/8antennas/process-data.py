@@ -24,10 +24,14 @@ path_times = ["00_41/", "00_62/", "00_94/", "01_42/", "01_89/", "02_84/", "03_79
 
 dataset_dl = []
 dataset_ul = []
+count_dl = []
+count_ul = []
 
 for i in range(3):
     mode_i_data_dl = []
     mode_i_data_ul = []
+    mode_i_count_dl = []
+    mode_i_count_ul = []
 
     for j in range(10):
         curr_path = path_modes[i]+path_times[j]
@@ -35,10 +39,14 @@ for i in range(3):
 
         mode_i_time_j_data_dl = []
         mode_i_time_j_data_ul = []
+        mode_i_time_j_count_dl = []
+        mode_i_time_j_count_ul = []
 
         for k in range(len(files)):
             mode_i_time_j_sta_k_data_dl = []
             mode_i_time_j_sta_k_data_ul = []
+            mode_i_time_j_sta_k_count_dl = 0
+            mode_i_time_j_sta_k_count_ul = 0
 
             with open(curr_path+files[k], 'r') as f:
                 data = json.load(f)
@@ -46,17 +54,46 @@ for i in range(3):
             for l in (range(len(data) - 1)):
                 if data[l]["mode"] == "DL":
                     mode_i_time_j_sta_k_data_dl.append(float(data[l]["mbps"]))
+                    mode_i_time_j_sta_k_count_dl += 1
                 else:
                     mode_i_time_j_sta_k_data_ul.append(float(data[l]["mbps"]))
+                    mode_i_time_j_sta_k_count_ul += 1
 
             mode_i_time_j_data_dl.append(mode_i_time_j_sta_k_data_dl)
             mode_i_time_j_data_ul.append(mode_i_time_j_sta_k_data_ul)
+            mode_i_time_j_count_dl.append(mode_i_time_j_sta_k_count_dl)
+            mode_i_time_j_count_ul.append(mode_i_time_j_sta_k_count_ul)
+
 
         mode_i_data_dl.append(list(mode_i_time_j_data_dl))
         mode_i_data_ul.append(list(mode_i_time_j_data_ul))
+        mode_i_count_dl.append(list(mode_i_time_j_count_dl))
+        mode_i_count_ul.append(list(mode_i_time_j_count_ul))
     
+
     dataset_dl.append(mode_i_data_dl)
     dataset_ul.append(mode_i_data_ul)
+    count_dl.append(mode_i_count_dl)
+    count_ul.append(mode_i_count_ul)
+
+
+#Sum count across all stations
+total_dl_files = np.zeros((3,8))
+total_ul_files = np.zeros((3,8))
+for i in range(3):
+    for j in range(8):
+        total_dl_files[i,j] = sum(count_dl[i][j])
+        total_ul_files[i,j] = sum(count_ul[i][j])
+
+print(type(total_dl_files))
+print(total_dl_files.shape)
+print(total_dl_files)
+
+print(type(total_ul_files))
+print(total_ul_files.shape)
+print(total_ul_files)
+
+
 
 # dataset_dl[mode][time][sta][0] is a unique value
 # dataset_dl[mode][time][sta] is a list of lists of all related measurements from a station
@@ -149,7 +186,6 @@ print(average_dl[2][0:i])
 print(error_bar_dl[2][0:i])
 print(average_ul[2][0:i])
 print(error_bar_ul[2][0:i])
-
 
 fig2, ax2 = plt.subplots()
 # Plot Downloads as a solid line
