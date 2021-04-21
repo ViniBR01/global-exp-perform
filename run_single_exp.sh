@@ -4,15 +4,29 @@
 # For usage, see usage-example.sh. Do not modify this file for new experiments.
 
 # Receive input arguments
-filesize=$1
-AP_priority=$2
-upload_ratio=$3
-MCS=$4
-max_aggregation=$5
-AP_antennas=$6
-uplink_mode=$7
-traffic_load=$8
+size=$1
+priority=$2
+ratio=$3
+mcs=$4
+aggreg=$5
+antenna=$6
+mode=$7
+load=$8
 path=$9
+
+# echo " "
+# echo "Received the following input arguments at run_single_exp:"
+# echo "File size = $filesize"
+# echo "Traffic load = ${traffic_load[@]}"
+# echo "Upload ratio = ${upload_ratio[@]}"
+# echo "MCS = ${MCS[@]}"
+# echo "Uplink mode = ${uplink_mode[@]}"
+# echo "AP antennas = ${AP_antennas[@]}"
+# echo "Max aggregation = ${max_aggregation[@]}"
+# echo "AP priority = ${AP_priority[@]}"
+# echo "Directory name = ${path[@]}"
+# echo " "
+
 
 echo "Running single experiment: $filesize $AP_priority $upload_ratio \
 $MCS $max_aggregation $AP_antennas $uplink_mode $traffic_load $path"
@@ -22,6 +36,7 @@ exec /home/vini-desktop/src/libs/libnetfilter_queue/examples/nf-queue 0 8 1 4 40
 #echo "Test running 32 stations..."
 #fix-me: call script that runs 32 simultaneous stations
 #e.g., 
-sudo -u vini-desktop ./run_simult_32.sh $size, $priority, $ratio, $mcs, $aggreg, $antenna, $mode, $load, $path
+sudo -u vini-desktop ./run_simult_32.sh $size $priority $ratio $mcs $aggreg $antenna $mode $load $path
+# sudo -u vini-desktop ./run_simult_32.sh 300000 4 0 8 40000 4 5 20 ./example
 pkill nf-queue
 
