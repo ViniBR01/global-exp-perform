@@ -3,6 +3,8 @@
 # Script to run all simlutaenous traffic for a single experiment given all parameters
 # For usage, see usage-example.sh. Do not modify this file for new experiments.
 
+#test me: ./run_simult_32.sh 300000 4 0 8 40000 4 5 20 ./example
+
 # Receive input arguments
 filesize=$1
 AP_priority=$2
@@ -18,6 +20,20 @@ runtime=3
 mininterval=0
 maxinterval=1
 
+# echo " "
+# echo "Received the following input arguments at run_simlut_32:"
+# echo "File size = ${filesize[@]}"
+# echo "Traffic load = ${traffic_load[@]}"
+# echo "Upload ratio = ${upload_ratio[@]}"
+# echo "MCS = ${MCS[@]}"
+# echo "Uplink mode = ${uplink_mode[@]}"
+# echo "AP antennas = ${AP_antennas[@]}"
+# echo "Max aggregation = ${max_aggregation[@]}"
+# echo "AP priority = ${AP_priority[@]}"
+# echo "Directory name = ${path[@]}"
+# echo " "
+
+# exit
 
 echo "Test running 32 stations..."
 python3 main.py -i 192.168.0.102 -f $filesize -l $runtime -g $mininterval -t $maxinterval -m $upload_ratio > "${path}Exp-32sta-300s-300kB-00_41sec-0sec-sta01.txt" &
