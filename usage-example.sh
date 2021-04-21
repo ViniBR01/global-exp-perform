@@ -9,16 +9,16 @@
 filesize='300000' # bytes
 AP_priority='4'
 upload_ratio='0.5'
-MCS='8'
-max_aggregation='40000' # bytes
-AP_antennas='4;6;8'
+MCS='4'
+max_aggregation='20000' # bytes
+AP_antennas='4'
 uplink_mode='1;4;5' # 1-SU, 4-reports, 5-genie
-traffic_load='10;30;50;70' # Percentage
-repeat='1;2' # For n runs, use array notation: '1;2;3;...;n'
+traffic_load='10;30;50;70;90' # Percentage
+repeat='1' # For n runs, use array notation: '1;2;3;...;n'
 
 # Parameters that are always fixed:
 transport='tcp' # Choose between 'tcp' and 'udp'
-exp_length='2' #in seconds
+exp_length='300' # in seconds
 dir_name='test_experiment'
 
 #Call main script passing all parameters
