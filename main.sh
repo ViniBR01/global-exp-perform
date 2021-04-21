@@ -146,7 +146,7 @@ for size in "${file_size[@]}"; do
                                     pathfinal="${path9//[.]/_}"
                                     # echo "./${pathfinal}"
                                     # Here call script to run one round of experiment with selected parameters
-                                    ./run_single_exp.sh $size $priority $ratio $mcs $aggreg $antenna $mode $load "./${pathfinal}"
+                                    ./run_single_exp.sh $size $priority $ratio $mcs $aggreg $antenna $mode $load "./${pathfinal}" $transport $exp_length
                                 done
                             done
                         done
