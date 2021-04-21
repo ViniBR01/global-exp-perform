@@ -34,10 +34,10 @@ def main(argv):
     server_ip = "192.168.0.102"
     upload_ratio = 0
 
-    usage_str = 'main.py -i <server-ip> -f <file-size> -l <time-length> -t <max-interval> -g <min-interval> -m <ratio-of-uploads>'
+    usage_str = 'main.py -i <server-ip> -f <file-size> -l <time-length> -t <traffic-lead> -m <ratio-of-uploads>'
     
     try:
-        opts, args = getopt.getopt(argv,"hf:l:i:t:g:m:",["file-size=","length=","server-ip=","max-interval=","min-interval=","upload-ratio="])
+        opts, args = getopt.getopt(argv,"hf:l:i:t:m:",["file-size=","length=","server-ip=","traffic-load=","upload-ratio="])
     except getopt.GetoptError:
         print(usage_str)
         sys.exit(2)
@@ -49,15 +49,22 @@ def main(argv):
             size = int(arg)
         elif opt in ("-l", "--length"):
             t_end = time.time() + int(arg)
-        elif opt in ("-t", "--max-interval"):
-            max_interval = float(arg)
-        elif opt in ("-g", "--min-interval"):
-            min_interval = float(arg)
+        elif opt in ("-t", "--traffic-load"):
+            traffic_load = float(arg)
         elif opt in ("-i", "--server-ip"):
             server_ip = arg
         elif opt in ("-m", "--upload-ratio"):
             upload_ratio = float(arg)
     
+    # Convert traffic_load into max and min interval
+    N_stations = 32
+    N_AP = 4
+    PHY_rate = 86700000
+    avg_interval = (100 * N_stations * 8 * size) / (traffic_load * N_AP * PHY_rate) - (8 * size / PHY_rate)
+    max_interval = 2 * avg_interval
+    min_interval = 0
+    # print("avg_interval = " + str(avg_interval))
+
     print('[')
 
     while (time.time() < t_end):
