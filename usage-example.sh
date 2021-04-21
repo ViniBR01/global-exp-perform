@@ -13,12 +13,12 @@ MCS='8'
 max_aggregation='40000' # bytes
 AP_antennas='4;6;8'
 uplink_mode='1;4;5' # 1-SU, 4-reports, 5-genie
-traffic_load='10;30;50;70'
+traffic_load='10;30;50;70' # Percentage
 repeat='1;2' # For n runs, use array notation: '1;2;3;...;n'
 
 # Parameters that are always fixed:
 transport='tcp' # Choose between 'tcp' and 'udp'
-exp_length='300' #in seconds
+exp_length='2' #in seconds
 dir_name='test_experiment'
 
 #Call main script passing all parameters
