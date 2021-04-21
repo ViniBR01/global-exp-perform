@@ -55,7 +55,6 @@ for i in range(3):
                 if data[l]["mode"] == "DL":
                     mode_i_time_j_sta_k_data_dl.append(float(data[l]["mbps"]))
                     mode_i_time_j_sta_k_count_dl += 1
-            
                 else:
                     mode_i_time_j_sta_k_data_ul.append(float(data[l]["mbps"]))
                     mode_i_time_j_sta_k_count_ul += 1
@@ -126,12 +125,6 @@ for i in range(3):
         results_ul_mode_i_time_j = []
         
         for k in range(32):
-            # print(type(dataset_dl_np))
-            # print(dataset_dl_np.size)
-            # print(dataset_dl_np.shape)
-            # print(type(dataset_dl_np[i,j]))
-            # print(dataset_dl_np[i,j][k])
-            
             results_dl_mode_i_time_j.append(np.nanmean(dataset_dl_np[i,j][k]))
             results_ul_mode_i_time_j.append(np.nanmean(dataset_ul_np[i,j][k]))
         
