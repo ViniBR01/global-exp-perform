@@ -135,11 +135,19 @@ for size in "${file_size[@]}"; do
                                     path8="${path8}load${load}/"
                                 fi
 
-                                # echo "Experiment with: $size, $load, $ratio, $mcs, $mode, $antenna, $aggreg, $priority"
-                                pathfinal="${path8//[.]/_}"
-                                # echo "./${pathfinal}"
-                                # Here call script to run one round of experiment with selected parameters
-                                ./run_single_exp.sh $size $priority $ratio $mcs $aggreg $antenna $mode $load "./${pathfinal}"
+                                for repetition in "${repeat[@]}"; do
+                                    path9="$path8"
+                                    if [[ ""${repeat[1]}"" != "" ]]
+                                    then
+                                        path9="${path9}repeat${repetition}/"
+                                    fi
+
+                                    # echo "Experiment with: $size, $load, $ratio, $mcs, $mode, $antenna, $aggreg, $priority"
+                                    pathfinal="${path9//[.]/_}"
+                                    # echo "./${pathfinal}"
+                                    # Here call script to run one round of experiment with selected parameters
+                                    ./run_single_exp.sh $size $priority $ratio $mcs $aggreg $antenna $mode $load "./${pathfinal}"
+                                done
                             done
                         done
                     done
