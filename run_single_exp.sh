@@ -43,3 +43,7 @@ exec /home/vini-desktop/src/libs/libnetfilter_queue/examples/nf-queue 0 $mcs $mo
 sudo -u vini-desktop ./run_simult_32.sh $size $priority $ratio $mcs $aggreg $antenna $mode $load $path $transport $length
 
 pkill nf-queue
+
+# Copy log file to destination folder inside of $path
+sudo -u vini-desktop mkdir "${path}perform"
+sudo -u vini-desktop cp ./logs/log.txt "${path}perform/log.txt"
