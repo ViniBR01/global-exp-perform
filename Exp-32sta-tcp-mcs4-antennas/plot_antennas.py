@@ -2,21 +2,22 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 #plotting the load values: x is a percentage
-max_interval = np.array([0.41, 0.62, 0.94, 1.42, 1.89, 2.84, 3.79, 5.69]) #, 11.38, 56.89])
-filesize = 300000*8
-PHYrate = 86700000
-tx_time = filesize/PHYrate
-x = 32*filesize / (max_interval/2 + tx_time) / (4*PHYrate)
-x = 100*x
+# max_interval = np.array([0.41, 0.62, 0.94, 1.42, 1.89, 2.84, 3.79, 5.69]) #, 11.38, 56.89])
+# filesize = 300000*8
+PHYrate = 43300000
+# tx_time = filesize/PHYrate
+# x = 32*filesize / (max_interval/2 + tx_time) / (4*PHYrate)
+# x = 100*x
+x = np.array([10, 30, 50, 70, 90])
 
 # First, UDP counting
 #Enter data from process-data, manually:
-udp_4_dl_in = [4341., 4744., 4399., 4247., 3931., 2947., 2411., 1652.]
-udp_4_ul_in = [4408., 4551., 4489., 4197., 3818., 3083., 2366., 1634.]
-udp_6_dl_in = [6188., 6017., 5707., 5061., 4318., 3142., 2445., 1627.]
-udp_6_ul_in = [6127., 6070., 5663., 5020., 4216., 3061., 2429., 1579.]
-udp_8_dl_in = [6635., 6500., 6153., 5199., 4348., 3135., 2397., 1700.]
-udp_8_ul_in = [6540., 6504., 6170., 5286., 4338., 3108., 2408., 1581.]
+udp_4_dl_in = [1087., 2879., 3817., 4077., 4094.]
+udp_4_ul_in = [1084., 2891., 3821., 3961., 4007.]
+udp_6_dl_in = [1069., 2891., 3971., 4431., 4680.]
+udp_6_ul_in = [1104., 2942., 4104., 4530., 4607.]
+udp_8_dl_in = [1069., 2921., 4005., 4761., 4891.]
+udp_8_ul_in = [1101., 2892., 4173., 4701., 4984.]
 
 udp_4_dl = np.array(udp_4_dl_in) * 8 * 300000 / 100
 udp_4_ul = np.array(udp_4_ul_in) * 8 * 300000 / 100
@@ -40,12 +41,12 @@ mask = np.ones(len(udp_8_dl), dtype=bool)
 fig, ax = plt.subplots()
 # Plot Downloads as a solid line
 # Plot Uploads as a dashed line
-ax.plot(x[mask], udp_8_dl[mask], color='tab:red')
-ax.plot(x[mask], udp_8_ul[mask], linestyle='dashed', color='tab:red')
-ax.plot(x[mask], udp_6_dl[mask], color='tab:cyan')
-ax.plot(x[mask], udp_6_ul[mask], linestyle='dashed', color='tab:cyan')
-ax.plot(x[mask], udp_4_dl[mask], color='tab:purple')
-ax.plot(x[mask], udp_4_ul[mask], linestyle='dashed', color='tab:purple')
+ax.plot(x, udp_8_dl, color='tab:red')
+ax.plot(x, udp_8_ul, linestyle='dashed', color='tab:red')
+ax.plot(x, udp_6_dl, color='tab:cyan')
+ax.plot(x, udp_6_ul, linestyle='dashed', color='tab:cyan')
+ax.plot(x, udp_4_dl, color='tab:purple')
+ax.plot(x, udp_4_ul, linestyle='dashed', color='tab:purple')
 
 
 ax.legend(['8 antennas - DL', '8 antennas - UL', '6 antennas - DL', '6 antennas - UL', '4 antennas - DL', '4 antennas - UL'], loc='upper right') #loc='lower left') #loc='upper right')
@@ -61,30 +62,31 @@ plt.savefig('TCP-Aggreg-Throughput-32sta.png', dpi=300)
 
 #Second, TCP throughput per file
 #plotting the load values: x is a percentage
-max_interval = np.array([0.41, 0.62, 0.94, 1.42, 1.89, 2.84, 3.79, 5.69, 11.38]) #, 11.38, 56.89])
-filesize = 300000*8
-PHYrate = 86700000
-tx_time = filesize/PHYrate
-x = 32*filesize / (max_interval/2 + tx_time) / (4*PHYrate)
-x = 100*x
+# max_interval = np.array([0.41, 0.62, 0.94, 1.42, 1.89, 2.84, 3.79, 5.69, 11.38]) #, 11.38, 56.89])
+# filesize = 300000*8
+# PHYrate = 86700000
+# tx_time = filesize/PHYrate
+# x = 32*filesize / (max_interval/2 + tx_time) / (4*PHYrate)
+# x = 100*x
+x = np.array([10, 30, 50, 70, 90])
 
-tcp_4_throug_dl_in = [0.05878283, 0.07769557, 0.11742786, 0.20741265, 0.29019296, 0.41735946, 0.4773248,  0.53897623, 0.59557053]
-tcp_4_throug_dl_err_in = [0.01672858, 0.0159685, 0.00792089, 0.00800524, 0.0164959, 0.01998829, 0.02857523, 0.02717118, 0.02478931]
+tcp_4_throug_dl_in = [0.62009633, 0.2853222,  0.13590333, 0.09492763, 0.07502079]
+tcp_4_throug_dl_err_in = [0.03648994, 0.0180954,  0.00891663, 0.01398795, 0.01448219]
 
-tcp_4_throug_ul_in = [0.19427165, 0.20340785, 0.22099521, 0.28630687, 0.36480305, 0.46177744, 0.52072271, 0.57942844, 0.63718889]
-tcp_4_throug_ul_err_in = [0.10473026, 0.10469857, 0.10843261, 0.10213358, 0.09633298, 0.09058331, 0.08779837, 0.07155779, 0.05825209]
+tcp_4_throug_ul_in = [0.73037687, 0.47033084, 0.34447488, 0.31352765, 0.29998482]
+tcp_4_throug_ul_err_in = [0.05809921, 0.09406997, 0.09991809, 0.10056902, 0.09975165]
 
-tcp_6_throug_dl_in = [0.06700192, 0.08425313, 0.12502254, 0.20812958, 0.29074745, 0.41023956, 0.47828485, 0.54201377, 0.5865386, ]
-tcp_6_throug_dl_err_in = [0.009545, 0.0058181, 0.00545929, 0.01047018, 0.01569439, 0.02251671, 0.02908099, 0.02278585, 0.0259806, ]
+tcp_6_throug_dl_in = [0.62346313, 0.27638619, 0.14731054, 0.10380033, 0.08729612]
+tcp_6_throug_dl_err_in = [0.03834619, 0.02185399, 0.00600096, 0.00586861, 0.00830155]
 
-tcp_6_throug_ul_in = [0.17151396, 0.18250346, 0.2139009, 0.28232277, 0.35316923, 0.4710355, 0.52285203, 0.57955306, 0.6101637, ]
-tcp_6_throug_ul_err_in = [0.0916839, 0.09168418, 0.09475377, 0.10615591, 0.0996677, 0.07830529, 0.08501472, 0.07344602, 0.08931968]
+tcp_6_throug_ul_in = [0.73400983, 0.46095814, 0.33754006, 0.29519358, 0.28135755]
+tcp_6_throug_ul_err_in = [0.06429763, 0.09183327, 0.09029896, 0.08919137, 0.08996989]
 
-tcp_8_throug_dl_in = [0.07023677, 0.08927684, 0.13237503, 0.2121235, 0.2949029, 0.41803835, 0.47697828, 0.53699319, 0.58601588]
-tcp_8_throug_dl_err_in = [0.00376444, 0.00320762, 0.00424714, 0.01112557, 0.01448652, 0.02489578, 0.02727393, 0.03009072, 0.02368002]
+tcp_8_throug_dl_in = [0.6145676,  0.28576624, 0.15021666, 0.1116801, 0.0913842]
+tcp_8_throug_dl_err_in = [0.04038766, 0.02096869, 0.00652016, 0.00437759, 0.0044234]
 
-tcp_8_throug_ul_in = [0.15873484, 0.16698338, 0.20863154, 0.27765595, 0.35280343, 0.46010844, 0.52334721, 0.55470483, 0.64172049]
-tcp_8_throug_ul_err_in = [0.08549641, 0.08073378, 0.0923802, 0.09809279, 0.09698718, 0.09420029, 0.06952519, 0.08261277, 0.05116103]
+tcp_8_throug_ul_in = [0.73435528, 0.46349572, 0.32998751, 0.28492038, 0.26225167]
+tcp_8_throug_ul_err_in = [0.05676524, 0.09233587, 0.08690787, 0.08482028, 0.08438368]
 
 # print(type(tcp_4_throug_dl_in))
 # quit()
