@@ -13,15 +13,47 @@ def run_iperf_UL(server_ip, filesize):
 def get_interval(min_interval, max_interval):
     return random.random()*(max_interval - min_interval) + min_interval
 
-def extract_bps(json_out):
+class JSON_Data:
+    def __init__(self):
+        self.bps_receiver = 0
+        self.bytes_receiver = 0
+        self.seconds_receiver = 0
+        self.bps_sender = 0
+        self.bytes_sender = 0
+        self.seconds_sender = 0
+        self.cpu_host = 0
+        self.cpu_remote = 0
+
+def extract_all_data(json_out):
     dict_out = json.loads(json_out)
-    return dict_out["end"]["streams"][0]["receiver"]["bits_per_second"]
+    data_obj = JSON_Data()
+    # Get receiver info:
+    data_obj.bps_receiver = dict_out["end"]["streams"][0]["receiver"]["bits_per_second"]
+    data_obj.bytes_receiver = dict_out["end"]["streams"][0]["receiver"]["bytes"]
+    data_obj.seconds_receiver = dict_out["end"]["streams"][0]["receiver"]["seconds"]
+    # Get sender info:
+    data_obj.bps_sender = dict_out["end"]["streams"][0]["sender"]["bits_per_second"]
+    data_obj.bytes_sender = dict_out["end"]["streams"][0]["sender"]["bytes"]
+    data_obj.seconds_sender = dict_out["end"]["streams"][0]["sender"]["seconds"]
+    # Get cpu utilization info:
+    data_obj.cpu_host = dict_out["end"]["cpu_utilization_percent"]["host_total"]
+    data_obj.cpu_remote = dict_out["end"]["cpu_utilization_percent"]["remote_total"]
+    
+    return data_obj
 
 def print_JSON(direction, size, max_interval, upload_ratio, json_out):
     string_out = '{ '
     string_out += '"mode" : "' + direction + '", '
     string_out += '"filesize" : ' + str(size) + ', '
-    string_out += '"mbps" : ' + str(extract_bps(json_out)/1024/1024) + ' '
+    json_data = extract_all_data(json_out)
+    string_out += '"mbps-receiver" : ' + str(json_data.bps_receiver/1024/1024) + ', '
+    string_out += '"bytes-receiver" : ' + str(json_data.bytes_receiver) + ', '
+    string_out += '"seconds-receiver" : ' + str(json_data.seconds_receiver) + ', '
+    string_out += '"mbps-sender" : ' + str(json_data.bps_sender/1024/1024) + ', '
+    string_out += '"bytes-sender" : ' + str(json_data.bytes_sender) + ', '
+    string_out += '"seconds-sender" : ' + str(json_data.seconds_sender) + ', '
+    string_out += '"cpu-host" : ' + str(json_data.cpu_host) + ', '
+    string_out += '"cpu-remote" : ' + str(json_data.cpu_remote) + ' '
     string_out += '},'
     print(string_out)
     pass
