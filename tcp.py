@@ -59,7 +59,7 @@ def main(argv):
     # Convert traffic_load into max and min interval
     N_stations = 32 # Hard-coded: fix-me XXX
     N_AP = 4 # XXX
-    PHY_rate = 86700000 # XXX
+    PHY_rate = 43300000 # XXX mcs0:7200000 | mcs4:43300000 | mcs8:86700000
     avg_interval = (100 * N_stations * 8 * size) / (traffic_load * N_AP * PHY_rate) - (8 * size / PHY_rate)
     max_interval = 2 * avg_interval
     min_interval = 0
