@@ -4,6 +4,8 @@ import time
 import random
 import sys, getopt
 
+# test-me: python3 tcp.py -i 192.168.0.102 -f 300000 -l 5 -t 50 -m 0.5 > "testing-tcp-py-results.txt"
+
 def run_iperf_DL(server_ip, filesize):
     return subprocess.check_output(["iperf3", "-c", server_ip, "-J", "-M 1460", "-l 1460", "-n "+str(filesize)])
 
