@@ -63,25 +63,25 @@ def print_JSON(direction, size, max_interval, upload_ratio, json_out):
 def convert_mcs_rate(mcs):
     ## XXX mcs0:7200000 | mcs4:43300000 | mcs8:86700000
     if mcs == 0:
-		return 7200000;     # 7.2MHz
-	elif mcs == 1:
-		return 14400000;    #14.4MHz
-	elif mcs == 2:
-		return 21700000;    #21.7MHz
-	elif mcs == 3:
-		return 28900000;    #28.9MHz
-	elif mcs == 4:
-		return 43300000;    #43.3MHz
-	elif mcs == 5:
-		return 57800000;    #57.8MHz
-	elif mcs == 6:
-		return 65000000;    #65MHz
-	elif mcs == 7:
-		return 72200000;    #72.2MHz
-	elif mcs == 8:
-		return 86700000;    #86.7MHz
-	elif mcs == 9:
-		return 96300000;    #96.3MHz
+	    return 7200000     # 7.2MHz
+    elif mcs == 1:
+        return 14400000    #14.4MHz
+    elif mcs == 2:
+        return 21700000    #21.7MHz
+    elif mcs == 3:
+        return 28900000    #28.9MHz
+    elif mcs == 4:
+        return 43300000    #43.3MHz
+    elif mcs == 5:
+        return 57800000    #57.8MHz
+    elif mcs == 6:
+        return 65000000    #65MHz
+    elif mcs == 7:
+        return 72200000    #72.2MHz
+    elif mcs == 8:
+        return 86700000    #86.7MHz
+    elif mcs == 9:
+        return 96300000    #96.3MHz
 
     return 54000000         #54 Mbits/sec
 
