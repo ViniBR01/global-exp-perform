@@ -16,6 +16,54 @@ path=$9
 transport=${10}
 length=${11}
 
+#convert "max" aggregation option based on mcs:
+if "${aggreg}" == "max"
+then
+    case $mcs in
+
+        0 )
+            aggreg=3300
+            ;;
+
+        1 )
+            aggreg=6600
+            ;;
+
+        2 )
+            aggreg=10000
+            ;;
+
+        3 )
+            aggreg=13300
+            ;;
+
+        4 )
+            aggreg=20000
+            ;;
+
+        5 )
+            aggreg=26700
+            ;;
+
+        6 )
+            aggreg=30000
+            ;;
+
+        7 )
+            aggreg=33300
+            ;;
+
+        8 )
+            aggreg=40000
+            ;;
+
+        9 )
+            aggreg=44500
+            ;;
+
+    esac
+    echo "Replaced 'max' by $aggreg"
+fi
 
 # echo " "
 # echo "Received the following input arguments at run_single_exp:"
@@ -38,12 +86,12 @@ $MCS $max_aggregation $AP_antennas $uplink_mode $traffic_load $path"
 
 sudo -u vini-desktop mkdir -p $path
 
-exec /home/vini-desktop/src/libs/libnetfilter_queue/examples/nf-queue 0 $mcs $mode $antenna $aggreg &
+# exec /home/vini-desktop/src/libs/libnetfilter_queue/examples/nf-queue 0 $mcs $mode $antenna $aggreg &
 
-sudo -u vini-desktop ./run_simult_32.sh $size $priority $ratio $mcs $aggreg $antenna $mode $load $path $transport $length
+# sudo -u vini-desktop ./run_simult_32.sh $size $priority $ratio $mcs $aggreg $antenna $mode $load $path $transport $length
 
-pkill nf-queue
+# pkill nf-queue
 
-# Copy log file to destination folder inside of $path
-sudo -u vini-desktop mkdir "${path}perform"
-sudo -u vini-desktop cp ./logs/log.txt "${path}perform/log.txt"
+# # Copy log file to destination folder inside of $path
+# sudo -u vini-desktop mkdir "${path}perform"
+# sudo -u vini-desktop cp ./logs/log.txt "${path}perform/log.txt"
