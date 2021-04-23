@@ -26,12 +26,16 @@ dataset_dl = []
 dataset_ul = []
 count_dl = []
 count_ul = []
+bytes_dl = []
+bytes_ul = []
 
 for i in range(len(path_modes)):
     mode_i_data_dl = []
     mode_i_data_ul = []
     mode_i_count_dl = []
     mode_i_count_ul = []
+    mode_i_bytes_dl = []
+    mode_i_bytes_ul = []
 
     for j in range(len(path_times)):
         curr_path = path_modes[i]+path_times[j]
@@ -41,12 +45,17 @@ for i in range(len(path_modes)):
         mode_i_time_j_data_ul = []
         mode_i_time_j_count_dl = []
         mode_i_time_j_count_ul = []
+        mode_i_time_j_bytes_dl = []
+        mode_i_time_j_bytes_ul = []
+
 
         for k in range(len(files)):
             mode_i_time_j_sta_k_data_dl = []
             mode_i_time_j_sta_k_data_ul = []
             mode_i_time_j_sta_k_count_dl = 0
             mode_i_time_j_sta_k_count_ul = 0
+            mode_i_time_j_sta_k_bytes_dl = 0
+            mode_i_time_j_sta_k_bytes_ul = 0
 
             with open(curr_path+files[k], 'r') as f:
                 data = json.load(f)
@@ -55,43 +64,67 @@ for i in range(len(path_modes)):
                 if data[l]["mode"] == "DL":
                     mode_i_time_j_sta_k_data_dl.append(float(data[l]["mbps-receiver"]))
                     mode_i_time_j_sta_k_count_dl += 1
+                    mode_i_time_j_sta_k_bytes_dl += float(data[l]["bytes-sender"])
                 else:
                     mode_i_time_j_sta_k_data_ul.append(float(data[l]["mbps-receiver"]))
                     mode_i_time_j_sta_k_count_ul += 1
+                    mode_i_time_j_sta_k_bytes_ul += float(data[l]["bytes-sender"])
 
             mode_i_time_j_data_dl.append(mode_i_time_j_sta_k_data_dl)
             mode_i_time_j_data_ul.append(mode_i_time_j_sta_k_data_ul)
             mode_i_time_j_count_dl.append(mode_i_time_j_sta_k_count_dl)
             mode_i_time_j_count_ul.append(mode_i_time_j_sta_k_count_ul)
+            mode_i_time_j_bytes_dl.append(mode_i_time_j_sta_k_bytes_dl)
+            mode_i_time_j_bytes_ul.append(mode_i_time_j_sta_k_bytes_ul)
 
 
         mode_i_data_dl.append(list(mode_i_time_j_data_dl))
         mode_i_data_ul.append(list(mode_i_time_j_data_ul))
         mode_i_count_dl.append(list(mode_i_time_j_count_dl))
         mode_i_count_ul.append(list(mode_i_time_j_count_ul))
-    
+        mode_i_bytes_dl.append(list(mode_i_time_j_bytes_dl))
+        mode_i_bytes_ul.append(list(mode_i_time_j_bytes_ul))
 
     dataset_dl.append(mode_i_data_dl)
     dataset_ul.append(mode_i_data_ul)
     count_dl.append(mode_i_count_dl)
     count_ul.append(mode_i_count_ul)
+    bytes_dl.append(mode_i_bytes_dl)
+    bytes_ul.append(mode_i_bytes_ul)
 
 
 #Sum count across all stations
-total_dl_files = np.zeros((3,8))
-total_ul_files = np.zeros((3,8))
+total_dl_files = np.zeros((len(path_modes), len(path_times)))
+total_ul_files = np.zeros((len(path_modes), len(path_times)))
+total_dl_bytes = np.zeros((len(path_modes), len(path_times)))
+total_ul_bytes = np.zeros((len(path_modes), len(path_times)))
+
 for i in range(len(path_modes)):
     for j in range(len(path_times)):
         total_dl_files[i,j] = sum(count_dl[i][j])
         total_ul_files[i,j] = sum(count_ul[i][j])
+        total_dl_bytes[i,j] = sum(bytes_dl[i][j])
+        total_ul_bytes[i,j] = sum(bytes_ul[i][j])
 
+print("Count of downloads:")
 print(type(total_dl_files))
 print(total_dl_files.shape)
 print(total_dl_files)
-
+print("Count of uploads:")
 print(type(total_ul_files))
 print(total_ul_files.shape)
 print(total_ul_files)
+
+print("Bytes of downloads:")
+print(type(total_dl_bytes))
+print(total_dl_bytes.shape)
+print(8*total_dl_bytes / 300 / (4*86700000))
+print("Bytes of uploads:")
+print(type(total_ul_bytes))
+print(total_ul_bytes.shape)
+print(8*total_ul_bytes / 300 / (4*86700000))
+print("Bytes of both:")
+print(8*total_dl_bytes / 300 / (4*86700000) + 8*total_ul_bytes / 300 / (4*86700000))
 
 
 
@@ -184,6 +217,7 @@ plt.ylabel('Measured average TCP Throughput per file\n[Normalized by the TCP spe
 plt.savefig('TCP-Throughput-Uploads-32sta.png', dpi=300)
 
 # Print values to the screen to manually capture them
+print("Per-file throughput results: dl, err, ul, err")
 print(average_dl[2][0:i])
 print(error_bar_dl[2][0:i])
 print(average_ul[2][0:i])
