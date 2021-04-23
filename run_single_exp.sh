@@ -17,8 +17,8 @@ transport=${10}
 length=${11}
 
 #convert "max" aggregation option based on mcs:
-if "${aggreg}" == "max"
-then
+echo "${aggreg}"
+if [[ "${aggreg}" == "max" ]]; then
     case $mcs in
 
         0 )
@@ -86,12 +86,12 @@ $MCS $max_aggregation $AP_antennas $uplink_mode $traffic_load $path"
 
 sudo -u vini-desktop mkdir -p $path
 
-# exec /home/vini-desktop/src/libs/libnetfilter_queue/examples/nf-queue 0 $mcs $mode $antenna $aggreg &
+exec /home/vini-desktop/src/libs/libnetfilter_queue/examples/nf-queue 0 $mcs $mode $antenna $aggreg &
 
-# sudo -u vini-desktop ./run_simult_32.sh $size $priority $ratio $mcs $aggreg $antenna $mode $load $path $transport $length
+sudo -u vini-desktop ./run_simult_32.sh $size $priority $ratio $mcs $aggreg $antenna $mode $load $path $transport $length
 
-# pkill nf-queue
+pkill nf-queue
 
-# # Copy log file to destination folder inside of $path
-# sudo -u vini-desktop mkdir "${path}perform"
-# sudo -u vini-desktop cp ./logs/log.txt "${path}perform/log.txt"
+# Copy log file to destination folder inside of $path
+sudo -u vini-desktop mkdir "${path}perform"
+sudo -u vini-desktop cp ./logs/log.txt "${path}perform/log.txt"

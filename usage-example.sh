@@ -9,11 +9,11 @@
 filesize='300000' # bytes
 AP_priority='4'
 upload_ratio='0.5'
-MCS='4'
-max_aggregation='max' # "max" or number of bytes
+MCS='0;4;8'
+max_aggregation='max' # 'max' or number of bytes
 AP_antennas='4'
 uplink_mode='1;4;5' # 1-SU, 4-reports, 5-genie
-traffic_load='10;30;50;70;90' # Percentage
+traffic_load='5;10;20;30;50' # Percentage
 repeat='1' # For n runs, use array notation: '1;2;3;...;n'
 
 # Parameters that are always fixed:
