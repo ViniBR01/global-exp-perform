@@ -106,6 +106,11 @@ for i in range(len(path_modes)):
         total_dl_bytes[i,j] = sum(bytes_dl[i][j])
         total_ul_bytes[i,j] = sum(bytes_ul[i][j])
 
+total_bytes = total_dl_bytes + total_ul_bytes
+total_bits = 8*total_bytes
+avg_bits_sec = total_bits / 300
+normalized_load = avg_bits_sec / (4*86700000)
+
 print("Count of downloads:")
 print(type(total_dl_files))
 print(total_dl_files.shape)
@@ -124,7 +129,8 @@ print(type(total_ul_bytes))
 print(total_ul_bytes.shape)
 print(8*total_ul_bytes / 300 / (4*86700000))
 print("Bytes of both:")
-print(8*total_dl_bytes / 300 / (4*86700000) + 8*total_ul_bytes / 300 / (4*86700000))
+# print(8*total_dl_bytes / 300 / (4*86700000) + 8*total_ul_bytes / 300 / (4*86700000))
+print(100*normalized_load)
 
 
 
@@ -199,17 +205,17 @@ x = np.array([10, 30, 50, 70, 90])
 fig, ax = plt.subplots()
 i = 5
 # Plot Downloads as a solid line
-ax.errorbar(x[0:i], average_dl[0][0:i], yerr=error_bar_dl[0][0:i], color='tab:blue')
-ax.errorbar(x[0:i], average_dl[1][0:i], yerr=error_bar_dl[1][0:i], color='tab:orange')
-ax.errorbar(x[0:i], average_dl[2][0:i], yerr=error_bar_dl[2][0:i], color='tab:green')
+ax.errorbar(100*normalized_load[0][0:i], average_dl[0][0:i], yerr=error_bar_dl[0][0:i], color='tab:blue')
+ax.errorbar(100*normalized_load[1][0:i], average_dl[1][0:i], yerr=error_bar_dl[1][0:i], color='tab:orange')
+ax.errorbar(100*normalized_load[2][0:i], average_dl[2][0:i], yerr=error_bar_dl[2][0:i], color='tab:green')
 # Plot Uploads as a dashed line
-ax.errorbar(x[0:i], average_ul[0][0:i], yerr=error_bar_ul[0][0:i], linestyle='dashed', color='tab:blue')
-ax.errorbar(x[0:i], average_ul[1][0:i], yerr=error_bar_ul[1][0:i], linestyle='dashed', color='tab:orange')
-ax.errorbar(x[0:i], average_ul[2][0:i], yerr=error_bar_ul[2][0:i], linestyle='dashed', color='tab:green')
+ax.errorbar(100*normalized_load[0][0:i], average_ul[0][0:i], yerr=error_bar_ul[0][0:i], linestyle='dashed', color='tab:blue')
+ax.errorbar(100*normalized_load[1][0:i], average_ul[1][0:i], yerr=error_bar_ul[1][0:i], linestyle='dashed', color='tab:orange')
+ax.errorbar(100*normalized_load[2][0:i], average_ul[2][0:i], yerr=error_bar_ul[2][0:i], linestyle='dashed', color='tab:green')
 
 ax.legend(['SU download','MU-Reports download','MU-Genie download','SU upload','MU-Reports upload','MU-Genie upload'], loc='upper right') #loc='lower left')
 # ax.legend(bbox_to_anchor=(1.1, 1.05))
-ax.set(xlim=(0, 100), ylim=(0, 1.0))
+ax.set(xlim=(0, 60), ylim=(0, 1.0))
 ax.grid(color='k', linestyle='--', linewidth=1)
 plt.title("Average TCP throughput of a 300kB file - 32 stations")
 plt.xlabel('Aggregate traffic load in network, in % [Normalized by MIMO PHY rate]') 
@@ -217,7 +223,7 @@ plt.ylabel('Measured average TCP Throughput per file\n[Normalized by the TCP spe
 plt.savefig('TCP-Throughput-Uploads-32sta.png', dpi=300)
 
 # Print values to the screen to manually capture them
-print("Per-file throughput results: dl, err, ul, err")
+print("Per-file throughput od mode 5 results: dl, err, ul, err")
 print(average_dl[2][0:i])
 print(error_bar_dl[2][0:i])
 print(average_ul[2][0:i])
