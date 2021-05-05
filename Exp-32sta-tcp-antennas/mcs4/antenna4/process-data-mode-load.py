@@ -20,7 +20,7 @@ path_m1 = "./mode1/"
 path_m4 = "./mode4/"
 path_m5 = "./mode5/"
 path_modes = [path_m1, path_m4, path_m5]
-path_times = ["load10/", "load30/", "load50/", "load70/", "load90/"]
+path_times = ["load1/", "load2/", "load5/", "load10/", "load20/", "load50/", "load99/"]
 
 dataset_dl = []
 dataset_ul = []
@@ -109,7 +109,7 @@ for i in range(len(path_modes)):
 total_bytes = total_dl_bytes + total_ul_bytes
 total_bits = 8*total_bytes
 avg_bits_sec = total_bits / 300
-normalized_load = avg_bits_sec / (4*86700000)
+normalized_load = avg_bits_sec / (4*43400000)
 
 print("Count of downloads:")
 print(type(total_dl_files))
@@ -123,11 +123,11 @@ print(total_ul_files)
 print("Bytes of downloads:")
 print(type(total_dl_bytes))
 print(total_dl_bytes.shape)
-print(8*total_dl_bytes / 300 / (4*86700000))
+print(8*total_dl_bytes / 300 / (4*43400000))
 print("Bytes of uploads:")
 print(type(total_ul_bytes))
 print(total_ul_bytes.shape)
-print(8*total_ul_bytes / 300 / (4*86700000))
+print(8*total_ul_bytes / 300 / (4*43400000))
 print("Bytes of both:")
 # print(8*total_dl_bytes / 300 / (4*86700000) + 8*total_ul_bytes / 300 / (4*86700000))
 print(100*normalized_load)
@@ -181,7 +181,7 @@ for i in range(len(path_modes)):
     error_bar_ul.append(error_bar_ul_mode_i)
 
 # Normalize
-tcp_speed = 80 #MCS4
+tcp_speed = 40 #MCS4
 average_dl = np.array(average_dl)/tcp_speed
 error_bar_dl = np.array(error_bar_dl)/tcp_speed
 average_ul = np.array(average_ul)/tcp_speed
@@ -203,7 +203,7 @@ x = np.array([10, 30, 50, 70, 90])
 # print(error_bar_dl[0:7])
 
 fig, ax = plt.subplots()
-i = 5
+i = 7
 # Plot Downloads as a solid line
 ax.errorbar(100*normalized_load[0][0:i], average_dl[0][0:i], yerr=error_bar_dl[0][0:i], color='tab:blue')
 ax.errorbar(100*normalized_load[1][0:i], average_dl[1][0:i], yerr=error_bar_dl[1][0:i], color='tab:orange')
@@ -215,7 +215,7 @@ ax.errorbar(100*normalized_load[2][0:i], average_ul[2][0:i], yerr=error_bar_ul[2
 
 ax.legend(['SU download','MU-Reports download','MU-Genie download','SU upload','MU-Reports upload','MU-Genie upload'], loc='upper right') #loc='lower left')
 # ax.legend(bbox_to_anchor=(1.1, 1.05))
-ax.set(xlim=(0, 60), ylim=(0, 1.0))
+ax.set(xlim=(0, 100), ylim=(0, 1.0))
 ax.grid(color='k', linestyle='--', linewidth=1)
 plt.title("Average TCP throughput of a 300kB file - 32 stations")
 plt.xlabel('Aggregate traffic load in network, in % [Normalized by MIMO PHY rate]') 

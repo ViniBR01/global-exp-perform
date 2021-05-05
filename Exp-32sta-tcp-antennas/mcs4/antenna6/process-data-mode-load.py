@@ -20,18 +20,22 @@ path_m1 = "./mode1/"
 path_m4 = "./mode4/"
 path_m5 = "./mode5/"
 path_modes = [path_m1, path_m4, path_m5]
-path_times = ["load10/", "load30/", "load50/", "load70/", "load90/"]
+path_times = ["load1/", "load2/", "load5/", "load10/", "load20/", "load50/", "load99/"]
 
 dataset_dl = []
 dataset_ul = []
 count_dl = []
 count_ul = []
+bytes_dl = []
+bytes_ul = []
 
 for i in range(len(path_modes)):
     mode_i_data_dl = []
     mode_i_data_ul = []
     mode_i_count_dl = []
     mode_i_count_ul = []
+    mode_i_bytes_dl = []
+    mode_i_bytes_ul = []
 
     for j in range(len(path_times)):
         curr_path = path_modes[i]+path_times[j]
@@ -41,12 +45,17 @@ for i in range(len(path_modes)):
         mode_i_time_j_data_ul = []
         mode_i_time_j_count_dl = []
         mode_i_time_j_count_ul = []
+        mode_i_time_j_bytes_dl = []
+        mode_i_time_j_bytes_ul = []
+
 
         for k in range(len(files)):
             mode_i_time_j_sta_k_data_dl = []
             mode_i_time_j_sta_k_data_ul = []
             mode_i_time_j_sta_k_count_dl = 0
             mode_i_time_j_sta_k_count_ul = 0
+            mode_i_time_j_sta_k_bytes_dl = 0
+            mode_i_time_j_sta_k_bytes_ul = 0
 
             with open(curr_path+files[k], 'r') as f:
                 data = json.load(f)
@@ -55,43 +64,73 @@ for i in range(len(path_modes)):
                 if data[l]["mode"] == "DL":
                     mode_i_time_j_sta_k_data_dl.append(float(data[l]["mbps-receiver"]))
                     mode_i_time_j_sta_k_count_dl += 1
+                    mode_i_time_j_sta_k_bytes_dl += float(data[l]["bytes-sender"])
                 else:
                     mode_i_time_j_sta_k_data_ul.append(float(data[l]["mbps-receiver"]))
                     mode_i_time_j_sta_k_count_ul += 1
+                    mode_i_time_j_sta_k_bytes_ul += float(data[l]["bytes-sender"])
 
             mode_i_time_j_data_dl.append(mode_i_time_j_sta_k_data_dl)
             mode_i_time_j_data_ul.append(mode_i_time_j_sta_k_data_ul)
             mode_i_time_j_count_dl.append(mode_i_time_j_sta_k_count_dl)
             mode_i_time_j_count_ul.append(mode_i_time_j_sta_k_count_ul)
+            mode_i_time_j_bytes_dl.append(mode_i_time_j_sta_k_bytes_dl)
+            mode_i_time_j_bytes_ul.append(mode_i_time_j_sta_k_bytes_ul)
 
 
         mode_i_data_dl.append(list(mode_i_time_j_data_dl))
         mode_i_data_ul.append(list(mode_i_time_j_data_ul))
         mode_i_count_dl.append(list(mode_i_time_j_count_dl))
         mode_i_count_ul.append(list(mode_i_time_j_count_ul))
-    
+        mode_i_bytes_dl.append(list(mode_i_time_j_bytes_dl))
+        mode_i_bytes_ul.append(list(mode_i_time_j_bytes_ul))
 
     dataset_dl.append(mode_i_data_dl)
     dataset_ul.append(mode_i_data_ul)
     count_dl.append(mode_i_count_dl)
     count_ul.append(mode_i_count_ul)
+    bytes_dl.append(mode_i_bytes_dl)
+    bytes_ul.append(mode_i_bytes_ul)
 
 
 #Sum count across all stations
-total_dl_files = np.zeros((3,8))
-total_ul_files = np.zeros((3,8))
+total_dl_files = np.zeros((len(path_modes), len(path_times)))
+total_ul_files = np.zeros((len(path_modes), len(path_times)))
+total_dl_bytes = np.zeros((len(path_modes), len(path_times)))
+total_ul_bytes = np.zeros((len(path_modes), len(path_times)))
+
 for i in range(len(path_modes)):
     for j in range(len(path_times)):
         total_dl_files[i,j] = sum(count_dl[i][j])
         total_ul_files[i,j] = sum(count_ul[i][j])
+        total_dl_bytes[i,j] = sum(bytes_dl[i][j])
+        total_ul_bytes[i,j] = sum(bytes_ul[i][j])
 
+total_bytes = total_dl_bytes + total_ul_bytes
+total_bits = 8*total_bytes
+avg_bits_sec = total_bits / 300
+normalized_load = avg_bits_sec / (4*43400000)
+
+print("Count of downloads:")
 print(type(total_dl_files))
 print(total_dl_files.shape)
 print(total_dl_files)
-
+print("Count of uploads:")
 print(type(total_ul_files))
 print(total_ul_files.shape)
 print(total_ul_files)
+
+print("Bytes of downloads:")
+print(type(total_dl_bytes))
+print(total_dl_bytes.shape)
+print(8*total_dl_bytes / 300 / (4*43400000))
+print("Bytes of uploads:")
+print(type(total_ul_bytes))
+print(total_ul_bytes.shape)
+print(8*total_ul_bytes / 300 / (4*43400000))
+print("Bytes of both:")
+# print(8*total_dl_bytes / 300 / (4*86700000) + 8*total_ul_bytes / 300 / (4*86700000))
+print(100*normalized_load)
 
 
 
@@ -142,7 +181,7 @@ for i in range(len(path_modes)):
     error_bar_ul.append(error_bar_ul_mode_i)
 
 # Normalize
-tcp_speed = 10 #MCS4
+tcp_speed = 40 #MCS4
 average_dl = np.array(average_dl)/tcp_speed
 error_bar_dl = np.array(error_bar_dl)/tcp_speed
 average_ul = np.array(average_ul)/tcp_speed
@@ -164,15 +203,15 @@ x = np.array([10, 30, 50, 70, 90])
 # print(error_bar_dl[0:7])
 
 fig, ax = plt.subplots()
-i = 5
+i = 7
 # Plot Downloads as a solid line
-ax.errorbar(x[0:i], average_dl[0][0:i], yerr=error_bar_dl[0][0:i], color='tab:blue')
-ax.errorbar(x[0:i], average_dl[1][0:i], yerr=error_bar_dl[1][0:i], color='tab:orange')
-ax.errorbar(x[0:i], average_dl[2][0:i], yerr=error_bar_dl[2][0:i], color='tab:green')
+ax.errorbar(100*normalized_load[0][0:i], average_dl[0][0:i], yerr=error_bar_dl[0][0:i], color='tab:blue')
+ax.errorbar(100*normalized_load[1][0:i], average_dl[1][0:i], yerr=error_bar_dl[1][0:i], color='tab:orange')
+ax.errorbar(100*normalized_load[2][0:i], average_dl[2][0:i], yerr=error_bar_dl[2][0:i], color='tab:green')
 # Plot Uploads as a dashed line
-ax.errorbar(x[0:i], average_ul[0][0:i], yerr=error_bar_ul[0][0:i], linestyle='dashed', color='tab:blue')
-ax.errorbar(x[0:i], average_ul[1][0:i], yerr=error_bar_ul[1][0:i], linestyle='dashed', color='tab:orange')
-ax.errorbar(x[0:i], average_ul[2][0:i], yerr=error_bar_ul[2][0:i], linestyle='dashed', color='tab:green')
+ax.errorbar(100*normalized_load[0][0:i], average_ul[0][0:i], yerr=error_bar_ul[0][0:i], linestyle='dashed', color='tab:blue')
+ax.errorbar(100*normalized_load[1][0:i], average_ul[1][0:i], yerr=error_bar_ul[1][0:i], linestyle='dashed', color='tab:orange')
+ax.errorbar(100*normalized_load[2][0:i], average_ul[2][0:i], yerr=error_bar_ul[2][0:i], linestyle='dashed', color='tab:green')
 
 ax.legend(['SU download','MU-Reports download','MU-Genie download','SU upload','MU-Reports upload','MU-Genie upload'], loc='upper right') #loc='lower left')
 # ax.legend(bbox_to_anchor=(1.1, 1.05))
@@ -184,6 +223,7 @@ plt.ylabel('Measured average TCP Throughput per file\n[Normalized by the TCP spe
 plt.savefig('TCP-Throughput-Uploads-32sta.png', dpi=300)
 
 # Print values to the screen to manually capture them
+print("Per-file throughput od mode 5 results: dl, err, ul, err")
 print(average_dl[2][0:i])
 print(error_bar_dl[2][0:i])
 print(average_ul[2][0:i])
@@ -198,7 +238,7 @@ ax2.plot(x[0:i], 100*(average_ul[1][0:i] / average_ul[0][0:i] - 1), '*--', color
 ax2.plot(x[0:i], 100*(average_ul[2][0:i] / average_ul[0][0:i] - 1), '*--', color='tab:green')
 
 ax2.legend(['MU-Reports / SU downloads','MU-Genie / SU downloads', 'MU-Reports / SU uploads','MU-Genie / SU uploads'])
-ax2.set(xlim=(0, 100), ylim=(0, 850))
+ax2.set(xlim=(0, 100), ylim=(0, 250))
 ax2.grid(color='k', linestyle='--', linewidth=1)
 plt.title("Relative Gain of the 2 MU modes over the SU Uplink")
 plt.xlabel('Aggregate traffic load in network, in % [Normalized by MIMO PHY rate]') 
